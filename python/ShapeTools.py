@@ -404,7 +404,7 @@ class ShapeBuilder(ModelBuilder):
         if shapeAlgo[-1] == "*": 
             qalgo = 100
             shapeAlgo = shapeAlgo[:-1]
-        if shapeAlgo == "shape": shapeAlgo = self.options.defMorph
+        if shapeAlgo == "shape" or shapeAlgo == "shapeU" or shapeAlgo == "shape?": shapeAlgo = self.options.defMorph
         if "shapeL" in shapeAlgo: qrange = 0;
         elif "shapeN" in shapeAlgo: qalgo = -1;
         if self.options.useHistPdf != "always":

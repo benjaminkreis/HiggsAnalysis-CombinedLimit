@@ -103,15 +103,17 @@ class ModelBuilder(ModelBuilderBase):
                         self.doObj("%s_Pdf" % n, "Gaussian", "%s, %s_In[0,%s], %g" % (n,n,r,sig));
                     else:
                         self.doObj("%s_Pdf" % n, "Gaussian", "%s[%s], %s_In[0,%s], %g" % (n,r,n,r,sig));
-                else:
+                elif not pdf.endswith('U') and not pdf.endswith('U?'):
                     if self.out.var("%s" % n):
                         self.doObj("%s_Pdf" % n, "SimpleGaussianConstraint", "%s, %s_In[0,%s], %g" % (n,n,r,sig));
                     else:
                        self.doObj("%s_Pdf" % n, "SimpleGaussianConstraint", "%s[%s], %s_In[0,%s], %g" % (n,r,n,r,sig));
+                else:
+                    self.doObj("%s_Pdf" % n, "Uniform", "%s_In[-1,1]" % n);
                 globalobs.append("%s_In" % n)
                 if self.options.bin:
                   self.out.var("%s_In" % n).setConstant(True)
-                if self.options.optimizeBoundNuisances: self.out.var(n).setAttribute("optimizeBounds")
+                if self.options.optimizeBoundNuisances and not pdf.endswith('U') and not pdf.endswith('U?'): self.out.var(n).setAttribute("optimizeBounds")
             elif pdf == "gmM":
                 val = 0;
                 for c in errline.values(): #list channels
